@@ -1,6 +1,6 @@
 # Seek Challenge
 
-Thanks for taking the time to review this code challenge. This repo contains one possible solution to the [challenge](docs/SEEK Software Engineer Code Challenge - Jan 19.pdf).
+Thanks for taking the time to review this code challenge. This repo contains one possible solution to the [challenge](docs/SEEK%20Software%20Engineer%20Code%20Challenge%20-%20Jan%2019.pdf).
 
 ## Requirements
 
@@ -11,7 +11,7 @@ This code challenge was created using **Node.js v14.16.1** and **npm v6.14.12**.
 To get this challenge running you can do the following:
 
 ```bash
-cd ~/path/to/where/you/want/to/download/this/to
+cd /path/to/where/you/want/to/download/this/to
 git clone git@github.com:damienwhaley/challenge-seek.git
 cd challenge-seek
 npm install
@@ -22,7 +22,7 @@ npm run
 I've also included a test suite which provides tests for the most important parts of the challenge. I'm not going for 100% coverage. To run the tests you can do the following:
 
 ```bash
-cd ~/path/to/where/you/want/to/download/this/to
+cd /path/to/where/you/want/to/download/this/to
 git clone git@github.com:damienwhaley/challenge-seek.git
 cd challenge-seek
 npm install
@@ -40,9 +40,9 @@ As much as possible I have tried to keep the classes isolated and they should no
 In this document you will see various words which are capitalised. These will be referencing the building blocks which are described below:
 
 * **Checkout** - this value object which wraps the calculation operations. It represents a shopping cart and checkout process.
-* **PricingRules** - this collection object which knows how to store PriceRule objects, and how to find which PriceRule is relevant for the Advertisment in the calculations in the Checkout. It also exists to satify the psuedo-code in the challenge document.
-* **PriceRule** - this is the individual rule which describes the discount (or price rise) for a given Customer for a given Product.
-* **ProductFactory** - this factory creates Product objects. This simplifies the creation of the Product objects and contains the information about each type of product. This probably would not be needed if we were fetching the Product details from a database.
+* **Pricing Rules** - this collection object which knows how to store PriceRule objects, and how to find which PriceRule is relevant for the Advertisment in the calculations in the Checkout. It also exists to satify the psuedo-code in the challenge document.
+* **Price Rule** - this is the individual rule which describes the discount (or price rise) for a given Customer for a given Product.
+* **Product Factory** - this factory creates Product objects. This simplifies the creation of the Product objects and contains the information about each type of product. This probably would not be needed if we were fetching the Product details from a database.
 * **Product** - this is a value object which describes the different advertising products which are available for a Customer. I deliberately did not create a base Product object with more specific Product objects which inherit from the base Product object as this is overkill an does not add anything to the solution.
 * **Customer** - this is not an object in the solution, but it is an important concept! This is the entity who is purchasing advertising products. I'm using the `customerName` member field to represent a Customer.
 * **Advertisment** - this value object represents what the Customer has purchased (or is going to purchase).
@@ -64,4 +64,5 @@ I hope I've done enough to demonstrate the skills and approach you are looking f
 1. Add the ability to have more than one Price Rule per Product per Customer. This would mean that there would be multiple passes over the calculation for the Product and the system would then choose the "winning" price. Winning could mean the price which is highest (to favour Seek), or the lowest (to favour the Customer).
 2. Add database persistance. In the real world the Products, Customers, and Price Rules would be drawn from a database of some form.
 3. Make this a CLI type application which allows for dynamically adding Customers, Products, Price Rules, and to use these in different Checkout scenarios.
-4. Change the structure to have Price Rules be attached to a Customer. I think this makes more sense as the Price Rules more closely align to a customer. This means that the
+4. Change the structure to have Price Rules be attached to a Customer. I think this makes more sense as the Price Rules more closely align to a Customer. This means that the way that the Checkout object works will also change. I'd recommend attaching a Customer to a Checkout when the Checkout is instatiated.
+
