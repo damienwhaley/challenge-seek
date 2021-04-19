@@ -12,4 +12,8 @@ export class Product {
     this.name = name;
     this.description = description;
   }
+
+  getRetailPrice(): Decimal {
+    return this.retailPrice;
+  }
 };
