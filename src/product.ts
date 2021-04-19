@@ -2,7 +2,7 @@ import { Decimal } from 'decimal.js';
 
 export class Product {
   productCode: string;
-  retailPrice: Decimal;
+  private retailPrice: Decimal;
   name: string
   description: string;
 
