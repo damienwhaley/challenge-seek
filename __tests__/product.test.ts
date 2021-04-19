@@ -12,6 +12,7 @@ describe('Product class', () => {
       const product = new Product(productCodeFixture, retailPriceFixture, nameFixture, descriptionFixture);
 
       expect(typeof product).not.toEqual('undefined');
+      expect(product instanceof Product).toBe(true);
       expect(product.productCode).toEqual(productCodeFixture);
       expect(product.retailPrice).toEqual(retailPriceFixture);
       expect(product.name).toEqual(nameFixture);
