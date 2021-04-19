@@ -4,7 +4,7 @@ Thanks for taking the time to review this code challenge. This repo contains one
 
 ## Requirements
 
-This code challenge was created using **Node.js v14.16.1** and **npm v6.14.12**. The rest of the dependencies are installed via `npm`. I used the [typescript-starter](https://www.npmjs.com/package/typescript-starter) project to create the boilerplate.
+This code challenge was created using **Node.js v14.16.1** and **npm v6.14.12**. The rest of the dependencies are installed via `npm`. I used the [node-typescript-boilerplate](https://github.com/jsynowiec/node-typescript-boilerplate) project to scaffold this solution.
 
 ## TL;DR
 
@@ -15,8 +15,8 @@ cd /path/to/where/you/want/to/download/this/to
 git clone git@github.com:damienwhaley/challenge-seek.git
 cd challenge-seek
 npm install
-npm build
-npm run
+npm run build
+npm start
 ```
 
 I've also included a test suite which provides tests for the most important parts of the challenge. I'm not going for 100% coverage. To run the tests you can do the following:
