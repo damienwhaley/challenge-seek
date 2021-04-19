@@ -4,14 +4,18 @@ import { Decimal } from 'decimal.js';
 describe('Product class', () => {
   describe('::constructor()', () => {
     it('can instatiate a class', () => {
-      const productCode = 'dummy';
-      const description = 'Some rather descriptive text';
-      const retailPrice = new Decimal(12.34);
-      const name = 'The Dummy Product';
+      const productCodeFixture = 'dummy';
+      const descriptionFixture = 'Some rather descriptive text';
+      const retailPriceFixture = new Decimal(12.34);
+      const nameFixture = 'The Dummy Product';
 
-      const product = new Product(productCode, retailPrice, name, description);
+      const product = new Product(productCodeFixture, retailPriceFixture, nameFixture, descriptionFixture);
 
-      expect(typeof product !== 'undefined');
+      expect(typeof product).not.toEqual('undefined');
+      expect(product.productCode).toEqual(productCodeFixture);
+      expect(product.retailPrice).toEqual(retailPriceFixture);
+      expect(product.name).toEqual(nameFixture);
+      expect(product.description).toEqual(descriptionFixture);
     });
   });
 });
