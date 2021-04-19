@@ -10,4 +10,8 @@ export class Advertisment {
   getCustomerName(): string {
     return this.customerName;
   }
+
+  getProductCode(): string {
+    return this.productCode;
+  }
 };
