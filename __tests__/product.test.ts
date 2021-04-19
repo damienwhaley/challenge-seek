@@ -18,4 +18,15 @@ describe('Product class', () => {
       expect(product.description).toEqual(descriptionFixture);
     });
   });
+
+  describe('::getRetailPrice()', () => {
+    it('can get the retail price', () => {
+      const productCodeFixture = 'example';
+      const retailPriceFixture = new Decimal(99.95);
+
+      const product = new Product(productCodeFixture, retailPriceFixture);
+
+      expect(product.getRetailPrice()).toEqual(retailPriceFixture);
+    });
+  });
 });
