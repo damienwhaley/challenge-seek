@@ -48,6 +48,8 @@ In this document you will see various words which are capitalised. These will be
 * **Advertisment** - this value object represents what the Customer has purchased (or is going to purchase).
 * **Application** - this service runs the program using the pre-defined Price Rules, Customers, Products, Advertisments, with several different Checkout flows.
 
+I've only used the [decimal.js](https://github.com/MikeMcl/decimal.js/) module as JavaScript (hence TypeScript) is infamously bad at floating point maths. Since we are dealing with money in this challenge I thought it was important to make sure the maths was correct.
+
 ## Assumptions
 
 I made some assumptions with regards to the solution which influenced the code you see here. In no particular order these are:
@@ -65,4 +67,4 @@ I hope I've done enough to demonstrate the skills and approach you are looking f
 2. Add database persistance. In the real world the Products, Customers, and Price Rules would be drawn from a database of some form.
 3. Make this a CLI type application which allows for dynamically adding Customers, Products, Price Rules, and to use these in different Checkout scenarios.
 4. Change the structure to have Price Rules be attached to a Customer. I think this makes more sense as the Price Rules more closely align to a Customer. This means that the way that the Checkout object works will also change. I'd recommend attaching a Customer to a Checkout when the Checkout is instatiated.
-
+5. Set the scope modifiers for the class members to be better. I've made the members which I want to control as private, but some of the others should be also private. It would have added more code for testing, and was not needed for the solution.

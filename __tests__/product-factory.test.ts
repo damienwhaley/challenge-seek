@@ -33,7 +33,7 @@ describe('ProductFactory class', () => {
       const result = productFactory.create(productCodeFixture);
       expect(typeof result).not.toEqual('undefined');
       expect(result instanceof Product).toBe(true);
-      expect(result.productCode).toEqual(ProductType.Classic);
+      expect(result.productCode).toEqual(ProductType.StandOut);
       expect(result.name).toEqual('Stand out Ad');
       expect(result.description).toEqual('Allows advertisers to use a company logo and use a longer presentation text');
       expect(result.getRetailPrice()).toEqual(new Decimal(322.99));
@@ -46,7 +46,7 @@ describe('ProductFactory class', () => {
       const result = productFactory.create(productCodeFixture);
       expect(typeof result).not.toEqual('undefined');
       expect(result instanceof Product).toBe(true);
-      expect(result.productCode).toEqual(ProductType.Classic);
+      expect(result.productCode).toEqual(ProductType.Premium);
       expect(result.name).toEqual('Premium Ad');
       expect(result.description).toEqual('Same benefits as Standout Ad, but also puts the advertisement at '
         + 'the top of the results, allowing higher visibility');
