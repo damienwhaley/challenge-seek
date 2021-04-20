@@ -1,6 +1,8 @@
 import { Checkout } from '../src/checkout';
 import { PricingRules } from  '../src/pricing-rules';
 import { Advertisment } from '../src/advertisment';
+import { ProductType } from '../src/product-type';
+import { ProductFactory } from '../src/product-factory';
 
 describe('Checkout class', () => {
   describe('::constructor()', () => {
@@ -111,6 +113,32 @@ describe('Checkout class', () => {
       expect(result1).toEqual(true);
       expect(result2).toEqual(false);
       expect(checkout.count()).toEqual(1);
+    });
+  });
+
+  describe('::total()', () => {
+    let pricingRulesFixture: PricingRules;
+    let checkout: Checkout;
+    let productFactory: ProductFactory;
+
+    beforeEach(() => {
+      pricingRulesFixture = new PricingRules();
+      checkout = new Checkout(pricingRulesFixture);
+      productFactory = new ProductFactory();
+    });
+
+    it('can calculate the total of a single product with no pricing rules', () => {
+      const customerNameFixture = 'Loyal Customer';
+      const productCodeFixture = ProductType.Classic;
+      const advertismentFixture = new Advertisment(customerNameFixture, productCodeFixture);
+      const productFixture = productFactory.create(productCodeFixture);
+
+      const result1 = checkout.add(advertismentFixture);
+      const result2 = checkout.total();
+
+      expect(result1).toEqual(true);
+      expect(checkout.count()).toEqual(1);
+      expect(result2).toEqual(productFixture.getRetailPrice());
     });
   });
 });
