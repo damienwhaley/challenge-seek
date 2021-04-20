@@ -16,19 +16,79 @@ describe('PriceRule class', () => {
   });
 
   describe('::calculate()', () => {
-    it('can can calculate with a fixed discount', () => {
+    let productFactory: ProductFactory;
+
+    beforeEach(() => {
+      productFactory = new ProductFactory();
+    });
+
+    it('can can calculate a total price with a fixed discount for a single product', () => {
       const productCodeFixture = ProductType.Classic;
       const fixedDiscountFixture = new Decimal(10.0);
-      //const retailPriceFixture = new Decimal(99.95);
       const quantityFixture = 1;
       const customerNameFixture = 'Lego';
-
-      const productFactory = new ProductFactory();
       const productFixture = productFactory.create(productCodeFixture);
+      const expected = productFixture.getRetailPrice().minus(fixedDiscountFixture);
 
       const priceRule = new PriceRule(customerNameFixture, productCodeFixture, fixedDiscountFixture);
 
-      expect(priceRule.calculate(quantityFixture)).toEqual(productFixture.getRetailPrice().minus(fixedDiscountFixture));
+      expect(priceRule.calculate(quantityFixture)).toEqual(expected);
+    });
+
+    it('can can calculate a total price with a fixed discount for multiple products', () => {
+      const productCodeFixture = ProductType.Classic;
+      const fixedDiscountFixture = new Decimal(10.0);
+      const quantityFixture = 5;
+      const customerNameFixture = 'MEGA CONTRUX';
+      const productFixture = productFactory.create(productCodeFixture);
+      const expected = productFixture.getRetailPrice().minus(fixedDiscountFixture).mul(quantityFixture);
+
+      const priceRule = new PriceRule(customerNameFixture, productCodeFixture, fixedDiscountFixture);
+
+      expect(priceRule.calculate(quantityFixture)).toEqual(expected);
+    });
+
+    it('can can calculate a total price with a bonus bundle', () => {
+      const productCodeFixture = ProductType.Premium;
+      const fixedDiscountFixture = new Decimal(0.0);
+      const bundleSizeFixture = 3;
+      const bundleBonusForFreeFixture = 1;
+      const quantityFixture = 3;
+      const customerNameFixture = 'Kre-O';
+      const productFixture = productFactory.create(productCodeFixture);
+      const expected = productFixture.getRetailPrice().mul(quantityFixture).minus(productFixture.getRetailPrice());
+
+      const priceRule = new PriceRule(customerNameFixture, productCodeFixture, fixedDiscountFixture, bundleSizeFixture, bundleBonusForFreeFixture);
+
+      expect(priceRule.calculate(quantityFixture)).toEqual(expected);
+    });
+
+    it('can can calculate a total price with multiple bonus bundles', () => {
+      const productCodeFixture = ProductType.Premium;
+      const fixedDiscountFixture = new Decimal(0.0);
+      const bundleSizeFixture = 4;
+      const bundleBonusForFreeFixture = 2;
+      const quantityFixture = 9;
+      const customerNameFixture = 'BanBao';
+      const productFixture = productFactory.create(productCodeFixture);
+      const expected = productFixture.getRetailPrice().mul(quantityFixture).minus((productFixture.getRetailPrice().mul(4)));
+
+      const priceRule = new PriceRule(customerNameFixture, productCodeFixture, fixedDiscountFixture, bundleSizeFixture, bundleBonusForFreeFixture);
+
+      expect(priceRule.calculate(quantityFixture)).toEqual(expected);
+    });
+
+    it('can can calculate a total price no quantity', () => {
+      const productCodeFixture = ProductType.Premium;
+      const fixedDiscountFixture = new Decimal(0.0);
+      const bundleSizeFixture = 0;
+      const bundleBonusForFreeFixture = 0;
+      const quantityFixture = 0;
+      const customerNameFixture = 'Cobi';
+
+      const priceRule = new PriceRule(customerNameFixture, productCodeFixture, fixedDiscountFixture, bundleSizeFixture, bundleBonusForFreeFixture);
+
+      expect(priceRule.calculate(quantityFixture)).toEqual(new Decimal(0.0));
     });
   });
 });
