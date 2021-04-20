@@ -3,8 +3,8 @@ import { ProductFactory } from './product-factory';
 import { Product } from './product';
 
 export class PriceRule {
-  customerName: string;
-  productCode: string;
+  private customerName: string;
+  private productCode: string;
   private fixedDiscount: Decimal;
   private product: Product;
   private bundleSize: number;
@@ -44,5 +44,13 @@ export class PriceRule {
     retailPrice = this.product.getRetailPrice().mul(new Decimal(quantity));
 
     return retailPrice.minus(fixedDiscountAmount).minus(bundleDiscountAmount);
+  }
+
+  getCustomerName(): string {
+    return this.customerName;
+  }
+
+  getProductCode(): string {
+    return this.productCode;
   }
 }
