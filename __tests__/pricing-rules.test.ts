@@ -12,13 +12,17 @@ describe('PricingRules class', () => {
     });
   });
 
-  describe('::addPriceRule()', () => {
+  describe('::add()', () => {
+    let pricingRules: PricingRules;
+
+    beforeEach(() => {
+      pricingRules = new PricingRules();
+    });
+
     it('can add a single price rule', () => {
       const customerNameFixture = 'Foo Fighters';
       const productCodeFixture = ProductType.Premium;
       const priceRuleFixture = new PriceRule(customerNameFixture, productCodeFixture);
-
-      const pricingRules = new PricingRules();
 
       pricingRules.add(priceRuleFixture);
 
@@ -33,8 +37,6 @@ describe('PricingRules class', () => {
       const customerNameFixture2 = 'Nirvana';
       const productCodeFixture2 = ProductType.Premium;
       const priceRuleFixture2 = new PriceRule(customerNameFixture2, productCodeFixture2);
-
-      const pricingRules = new PricingRules();
 
       pricingRules.add(priceRuleFixture1);
       pricingRules.add(priceRuleFixture2);
@@ -51,12 +53,32 @@ describe('PricingRules class', () => {
       const productCodeFixture2 = ProductType.Premium;
       const priceRuleFixture2 = new PriceRule(customerNameFixture2, productCodeFixture2);
 
-      const pricingRules = new PricingRules();
-
       pricingRules.add(priceRuleFixture1);
       pricingRules.add(priceRuleFixture2);
 
       expect(pricingRules.count()).toEqual(1);
     });
+  });
+
+  describe('::find()', () => {
+    let pricingRules: PricingRules;
+
+    beforeEach(() => {
+      pricingRules = new PricingRules();
+    });
+
+    it('can add a single price rule and it can be found by searching for the same thing', () => {
+      const customerNameFixture = 'Public Enemy';
+      const productCodeFixture = ProductType.StandOut;
+      const priceRuleFixture = new PriceRule(customerNameFixture, productCodeFixture);
+
+      pricingRules.add(priceRuleFixture);
+      const result = pricingRules.find(customerNameFixture, productCodeFixture);
+
+      expect(pricingRules.count()).toEqual(1);
+      expect(result.getCustomerName()).toEqual(priceRuleFixture.getCustomerName());
+      expect(result.getProductCode()).toEqual(priceRuleFixture.getProductCode());
+    });
+
   });
 });

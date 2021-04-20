@@ -23,10 +23,11 @@ export class PriceRule {
 
   calculate(quantity = 1): Decimal {
     if(quantity === 0) {
+      // fast exit
       return new Decimal(0.0);
     }
 
-    let retailPrice = new Decimal(0.0);
+    let retailPrice = this.product.getRetailPrice().mul(new Decimal(quantity));
     let fixedDiscountAmount = new Decimal(0.0);
     let bundleDiscountAmount = new Decimal(0.0);
 
@@ -35,13 +36,13 @@ export class PriceRule {
     }
 
     if (this.bundleSize > 0 && this.bonusPerBundle > 0 && quantity >= this.bundleSize) {
-      const modulus = new Decimal(quantity).mod(new Decimal(this.bundleSize));
-      const quotient = new Decimal(quantity).minus(modulus).div(this.bundleSize);
+      // find the number of products which are "bonus" and multiply that by the retail price
+      // of the product which gives you the price of the "bonus" products
+      const remainder = new Decimal(quantity).mod(new Decimal(this.bundleSize));
+      const quotient = new Decimal(quantity).minus(remainder).div(this.bundleSize);
 
       bundleDiscountAmount = quotient.mul(new Decimal(this.bonusPerBundle)).mul(this.product.getRetailPrice());
     }
-
-    retailPrice = this.product.getRetailPrice().mul(new Decimal(quantity));
 
     return retailPrice.minus(fixedDiscountAmount).minus(bundleDiscountAmount);
   }
