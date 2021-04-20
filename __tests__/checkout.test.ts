@@ -117,21 +117,20 @@ describe('Checkout class', () => {
   });
 
   describe('::total()', () => {
-    let pricingRulesFixture: PricingRules;
-    let checkout: Checkout;
     let productFactory: ProductFactory;
 
     beforeEach(() => {
-      pricingRulesFixture = new PricingRules();
-      checkout = new Checkout(pricingRulesFixture);
       productFactory = new ProductFactory();
     });
 
     it('can calculate the total of a single product with no pricing rules', () => {
+      const pricingRulesFixture = new PricingRules();
       const customerNameFixture = 'Loyal Customer';
       const productCodeFixture = ProductType.Classic;
       const advertismentFixture = new Advertisment(customerNameFixture, productCodeFixture);
       const productFixture = productFactory.create(productCodeFixture);
+
+      const checkout = new Checkout(pricingRulesFixture);
 
       const result1 = checkout.add(advertismentFixture);
       const result2 = checkout.total();
@@ -139,6 +138,49 @@ describe('Checkout class', () => {
       expect(result1).toEqual(true);
       expect(checkout.count()).toEqual(1);
       expect(result2).toEqual(productFixture.getRetailPrice());
+    });
+
+    it('can calculate the total of multiples of the same product with no pricing rules', () => {
+      const pricingRulesFixture = new PricingRules();
+      const customerNameFixture = 'Loyal Customer';
+      const productCodeFixture = ProductType.StandOut;
+      const advertismentFixture = new Advertisment(customerNameFixture, productCodeFixture);
+      const productFixture = productFactory.create(productCodeFixture);
+
+      const checkout = new Checkout(pricingRulesFixture);
+
+      const result1 = checkout.add(advertismentFixture);
+      const result2 = checkout.add(advertismentFixture);
+      const result3 = checkout.add(advertismentFixture);
+      const result4 = checkout.total();
+
+      expect(result1).toEqual(true);
+      expect(result2).toEqual(true);
+      expect(result3).toEqual(true);
+      expect(checkout.count()).toEqual(3);
+      expect(result4).toEqual(productFixture.getRetailPrice().mul(3));
+    });
+
+    it('can calculate the total two different products with no pricing rules', () => {
+      const pricingRulesFixture = new PricingRules();
+      const customerNameFixture = 'Loyal Customer';
+      const productCodeFixture1 = ProductType.StandOut;
+      const advertismentFixture1 = new Advertisment(customerNameFixture, productCodeFixture1);
+      const productFixture1 = productFactory.create(productCodeFixture1);
+      const productCodeFixture2 = ProductType.Premium;
+      const advertismentFixture2 = new Advertisment(customerNameFixture, productCodeFixture2);
+      const productFixture2 = productFactory.create(productCodeFixture2);
+
+      const checkout = new Checkout(pricingRulesFixture);
+
+      const result1 = checkout.add(advertismentFixture1);
+      const result2 = checkout.add(advertismentFixture2);
+      const result3 = checkout.total();
+
+      expect(result1).toEqual(true);
+      expect(result2).toEqual(true);
+      expect(checkout.count()).toEqual(2);
+      expect(result3).toEqual(productFixture1.getRetailPrice().plus(productFixture2.getRetailPrice()));
     });
   });
 });

@@ -1,23 +1,21 @@
 import { PricingRules } from './pricing-rules';
 import { Advertisment } from './advertisment';
-
-interface AdvertismentItem {
-  customerName: string,
-  productCode: string,
-  quantity: number
-};
+import { Decimal } from 'decimal.js';
+import { ProductFactory } from './product-factory';
 
 export class Checkout {
   private pricingRules: PricingRules;
-  private advertisments: { key: string, value: AdvertismentItem };
+  private advertisments = {};
   private customerName: string;
-
-  private createKey(customerName: string, productCode: string): string {
-    return `${customerName}(╯°□°)╯︵ ┻━┻${productCode}`;
-  }
+  private productFactory: ProductFactory;
 
   constructor(pricingRules: PricingRules) {
     this.pricingRules = pricingRules;
+    this.productFactory = new ProductFactory();
+  }
+
+  private createKey(customerName: string, productCode: string): string {
+    return `${customerName}(╯°□°)╯︵ ┻━┻${productCode}`;
   }
 
   add(advertisment: Advertisment): boolean {
@@ -32,7 +30,7 @@ export class Checkout {
 
     const key = this.createKey(advertisment.getCustomerName(), advertisment.getProductCode());
 
-    if (key in this.advertisments) {
+    if (this.advertisments[key]) {
       this.advertisments[key].quantity = this.advertisments[key].quantity + 1;
     } else {
       this.advertisments[key] = {
@@ -48,10 +46,33 @@ export class Checkout {
   count(): number {
     let quantity = 0;
 
-    Object.keys(this.advertisments).forEach((key) => {
-      quantity = quantity + this.advertisments[key].quantity;
-    });
+    if (this.advertisments) {
+      Object.keys(this.advertisments).forEach((key) => {
+        quantity = quantity + this.advertisments[key].quantity;
+      });
+    }
 
     return quantity;
+  }
+
+  total(): Decimal {
+    let totalAmount = new Decimal(0.0);
+
+    if (this.count() > 0) {
+      // loop though the advertisments collection and calculate the value of each groups of products
+      Object.keys(this.advertisments).forEach((key) => {
+        const priceRule = this.pricingRules.find(this.advertisments[key].customerName, this.advertisments[key].productCode);
+        if (priceRule) {
+          // this product has pricing rules, so calculate using those rules
+          totalAmount = totalAmount.plus(priceRule.calculate(this.advertisments[key].quantity));
+        } else {
+          // the customer is paying the full retail price
+          const product = this.productFactory.create(this.advertisments[key].productCode);
+          totalAmount = totalAmount.plus(product.getRetailPrice().mul(this.advertisments[key].quantity));
+        }
+      });
+    }
+
+    return totalAmount;
   }
 };
