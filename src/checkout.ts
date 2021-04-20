@@ -10,6 +10,7 @@ interface AdvertismentItem {
 export class Checkout {
   private pricingRules: PricingRules;
   private advertisments: { key: string, value: AdvertismentItem };
+  private customerName: string;
 
   private createKey(customerName: string, productCode: string): string {
     return `${customerName}(╯°□°)╯︵ ┻━┻${productCode}`;
@@ -19,7 +20,16 @@ export class Checkout {
     this.pricingRules = pricingRules;
   }
 
-  add(advertisment: Advertisment) {
+  add(advertisment: Advertisment): boolean {
+    if (this.count() === 0) {
+      this.customerName = advertisment.getCustomerName();
+    }
+
+    if (this.customerName !== advertisment.getCustomerName()) {
+      // You can only add products from a single customer
+      return false;
+    }
+
     const key = this.createKey(advertisment.getCustomerName(), advertisment.getProductCode());
 
     if (key in this.advertisments) {
@@ -31,6 +41,8 @@ export class Checkout {
         quantity: 1
       };
     }
+
+    return true;
   }
 
   count(): number {
