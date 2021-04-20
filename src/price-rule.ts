@@ -37,7 +37,7 @@ export class PriceRule {
 
     if (this.bundleSize > 0 && this.bonusPerBundle > 0 && quantity >= this.bundleSize) {
       // find the number of products which are "bonus" and multiply that by the retail price
-      // of the product which gives you the price of the "bonus" products
+      // of the product which gives you the price of all the "bonus" products
       const remainder = new Decimal(quantity).mod(new Decimal(this.bundleSize));
       const quotient = new Decimal(quantity).minus(remainder).div(this.bundleSize);
 

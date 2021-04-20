@@ -80,5 +80,35 @@ describe('PricingRules class', () => {
       expect(result.getProductCode()).toEqual(priceRuleFixture.getProductCode());
     });
 
+    it('can add a single price rule and it can not be found by searching for something else', () => {
+      const customerNameFixture = 'Beastie Boys';
+      const productCodeFixture = ProductType.Premium;
+      const priceRuleFixture = new PriceRule(customerNameFixture, productCodeFixture);
+
+      pricingRules.add(priceRuleFixture);
+      const result = pricingRules.find('Enya', productCodeFixture);
+
+      expect(pricingRules.count()).toEqual(1);
+      expect(result).toBe(null);
+    });
+
+    it('can add a single price rule and it can be found by searching for the same thing', () => {
+      const customerNameFixture1 = 'Powderfinger';
+      const productCodeFixture1 = ProductType.Classic;
+      const priceRuleFixture1 = new PriceRule(customerNameFixture1, productCodeFixture1);
+      const customerNameFixture2 = 'Silverchair';
+      const productCodeFixture2 = ProductType.StandOut;
+      const priceRuleFixture2 = new PriceRule(customerNameFixture2, productCodeFixture2);
+
+      pricingRules.add(priceRuleFixture1);
+      pricingRules.add(priceRuleFixture2);
+
+
+      const result = pricingRules.find(customerNameFixture2, productCodeFixture2);
+
+      expect(pricingRules.count()).toEqual(2);
+      expect(result.getCustomerName()).toEqual(priceRuleFixture2.getCustomerName());
+      expect(result.getProductCode()).toEqual(priceRuleFixture2.getProductCode());
+    });
   });
 });
