@@ -68,3 +68,4 @@ I hope I've done enough to demonstrate the skills and approach you are looking f
 3. Make this a CLI type application which allows for dynamically adding Customers, Products, Price Rules, and to use these in different Checkout scenarios.
 4. Change the structure to have Price Rules be attached to a Customer. I think this makes more sense as the Price Rules more closely align to a Customer. This means that the way that the Checkout object works will also change. I'd recommend attaching a Customer to a Checkout when the Checkout is instatiated.
 5. Set the scope modifiers for the class members to be better. I've made the members which I want to control as private, but some of the others should be also private. It would have added more code for testing, and was not needed for the solution.
+6. Add a percentage discount to the price rules to add flexibility and more readability.
