@@ -31,6 +31,7 @@ export class Checkout {
     const key = this.createKey(advertisment.getCustomerName(), advertisment.getProductCode());
 
     if (this.advertisments[key]) {
+      // increment the count, we already have one of these advertisments
       this.advertisments[key].quantity = this.advertisments[key].quantity + 1;
     } else {
       this.advertisments[key] = {
