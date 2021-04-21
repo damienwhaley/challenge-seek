@@ -27,7 +27,7 @@ export class PriceRule {
       return new Decimal(0.0);
     }
 
-    let retailPrice = this.product.getRetailPrice().mul(new Decimal(quantity));
+    const retailPrice = this.product.getRetailPrice().mul(new Decimal(quantity));
     let fixedDiscountAmount = new Decimal(0.0);
     let bundleDiscountAmount = new Decimal(0.0);
 

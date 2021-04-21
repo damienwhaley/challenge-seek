@@ -92,7 +92,7 @@ describe('PricingRules class', () => {
       expect(result).toBe(null);
     });
 
-    it('can add a single price rule and it can be found by searching for the same thing', () => {
+    it('can add a two price rules and one can be found by searching', () => {
       const customerNameFixture1 = 'Powderfinger';
       const productCodeFixture1 = ProductType.Classic;
       const priceRuleFixture1 = new PriceRule(customerNameFixture1, productCodeFixture1);
@@ -102,7 +102,6 @@ describe('PricingRules class', () => {
 
       pricingRules.add(priceRuleFixture1);
       pricingRules.add(priceRuleFixture2);
-
 
       const result = pricingRules.find(customerNameFixture2, productCodeFixture2);
 

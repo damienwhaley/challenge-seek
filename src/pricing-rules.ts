@@ -8,7 +8,7 @@ export class PricingRules {
     return `${customerName}\\_(ツ)_/¯${productCode}`;
   }
 
-  add(priceRule: PriceRule) {
+  add(priceRule: PriceRule): void {
     this.pricingRules[this.createKey(priceRule.getCustomerName(), priceRule.getProductCode())] = priceRule;
   }
 
