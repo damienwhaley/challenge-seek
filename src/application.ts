@@ -44,13 +44,13 @@ function runDefaultExample() {
 function runSecondBiteExample() {
   const pricingRules = createExamplePricingRules();
   const item1 = new Advertisment('SecondBite', ProductType.Classic);
-  const item4 = new Advertisment('SecondBite', ProductType.Premium);
+  const item2 = new Advertisment('SecondBite', ProductType.Premium);
 
   const checkout = new Checkout(pricingRules);
   checkout.add(item1);
   checkout.add(item1);
   checkout.add(item1);
-  checkout.add(item4);
+  checkout.add(item2);
   const total = checkout.total();
 
   console.log('Customer: SecondBite');
