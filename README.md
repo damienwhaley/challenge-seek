@@ -12,7 +12,7 @@ To get this challenge running you can do the following:
 
 ```bash
 cd /path/to/where/you/want/to/download/this/to
-git clone git@github.com:damienwhaley/challenge-seek.git
+git clone https://github.com/damienwhaley/challenge-seek.git
 cd challenge-seek
 npm install
 npm run build
@@ -23,7 +23,7 @@ I've also included a test suite which provides tests for the most important part
 
 ```bash
 cd /path/to/where/you/want/to/download/this/to
-git clone git@github.com:damienwhaley/challenge-seek.git
+git clone https://github.com/damienwhaley/challenge-seek.git
 cd challenge-seek
 npm install
 npm test
@@ -35,7 +35,7 @@ If I've done a decent job then all the tests will pass.
 
 I've tried to keep the design down to only what is required, but with the flexibility to be extended should that be required. I built this solution following TDD principles (check out the commit history).
 
-As much as possible I have tried to keep the classes isolated and they should not have too much knowledge of how the others work internally. I've attempted to encapsulate the functionality within each class and keep only the functionality which relates to the class in the class. I've not gone over the top with the definitions of classes, not abused inheritance, and where possible I've used the easiest to understand implementation in preference to a new and shiny option.
+As much as possible I have tried to keep the classes isolated and they should not have any knowledge of how the others work internally. I've attempted to encapsulate the functionality within each class and keep only the functionality which relates to the class in the class. I've not gone over the top with the definitions of classes, not abused inheritance, and where possible I've used the easiest to understand implementation in preference to a new and shiny option.
 
 In this document you will see various words which are capitalised. These will be referencing the building blocks which are described below:
 
@@ -69,3 +69,4 @@ I hope I've done enough to demonstrate the skills and approach you are looking f
 4. Change the structure to have Price Rules be attached to a Customer. I think this makes more sense as the Price Rules more closely align to a Customer. This means that the way that the Checkout object works will also change. I'd recommend attaching a Customer to a Checkout when the Checkout is instatiated.
 5. Set the scope modifiers for the class members to be better. I've made the members which I want to control as private, but some of the others should be also private. It would have added more code for testing, and was not needed for the solution.
 6. Add a percentage discount to the price rules to add flexibility and more readability.
+7. I wasn't entirely happy with how I am using `productCode`. I think perhaps it could have passed a `product` object instead, but that might be too much overhead in terms of everything else which goes with the product object. Maybe if this was a database-backed solution then the way the objects are created or fetched will change the way that objects are created or passed.
