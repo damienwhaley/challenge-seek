@@ -9,13 +9,17 @@ export class PriceRule {
   private product: Product;
   private bundleSize: number;
   private bonusPerBundle: number;
+  private thresholdSize: number;
+  private thresholdDiscountFixed: Decimal;
 
-  constructor(customerName: string, productCode: string, fixedDiscount = new Decimal(0.0), bundleSize = 0, bonusPerBundle = 0) {
+  constructor(customerName: string, productCode: string, fixedDiscount = new Decimal(0.0), bundleSize = 0, bonusPerBundle = 0, thresholdSize = 0, thresholdDiscountFixed = new Decimal(0.0)) {
     this.customerName = customerName;
     this.productCode = productCode;
     this.fixedDiscount = fixedDiscount;
     this.bundleSize = bundleSize;
     this.bonusPerBundle = bonusPerBundle;
+    this.thresholdSize = thresholdSize;
+    this.thresholdDiscountFixed = thresholdDiscountFixed;
 
     const productFactory = new ProductFactory();
     this.product = productFactory.create(productCode);
@@ -30,6 +34,7 @@ export class PriceRule {
     const retailPrice = this.product.getRetailPrice().mul(new Decimal(quantity));
     let fixedDiscountAmount = new Decimal(0.0);
     let bundleDiscountAmount = new Decimal(0.0);
+    let thresholdDiscountAmount = new Decimal(0.0);
 
     if (this.fixedDiscount.greaterThan(new Decimal(0.0))) {
       fixedDiscountAmount = this.fixedDiscount.mul(new Decimal(quantity));
@@ -44,7 +49,12 @@ export class PriceRule {
       bundleDiscountAmount = quotient.mul(new Decimal(this.bonusPerBundle)).mul(this.product.getRetailPrice());
     }
 
-    return retailPrice.minus(fixedDiscountAmount).minus(bundleDiscountAmount);
+    // theshold calculation
+    if (this.thresholdSize > 0 && this.thresholdDiscountFixed > new Decimal(0.0) && quantity >= this.thresholdSize) {
+      thresholdDiscountAmount = new Decimal(quantity).mul(this.thresholdDiscountFixed);
+    }
+
+    return retailPrice.minus(fixedDiscountAmount).minus(bundleDiscountAmount).minus(thresholdDiscountAmount);
   }
 
   getCustomerName(): string {
