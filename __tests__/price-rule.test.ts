@@ -90,5 +90,21 @@ describe('PriceRule class', () => {
 
       expect(priceRule.calculate(quantityFixture)).toEqual(new Decimal(0.0));
     });
+
+    it('can can calculate a total price when a threshold is reached', () => {
+      // en reach threshold to reduce by fixed amount
+      const productCodeFixture = ProductType.Premium;
+      const fixedDiscountFixture = new Decimal(0.0);
+      const thresholdSizeFixture = 2;
+      const thresholdDiscountFixedFixture = new Decimal(20.0);
+      const quantityFixture = 2;
+      const customerNameFixture = 'Banana';
+
+      const priceRule = new PriceRule(customerNameFixture, productCodeFixture, fixedDiscountFixture, 0, 0, thresholdSizeFixture, thresholdDiscountFixedFixture);
+
+        // premium = 374.99 * 2
+
+      expect(priceRule.calculate(quantityFixture)).toEqual(new Decimal(374.99 * 2));
+    });
   });
 });
